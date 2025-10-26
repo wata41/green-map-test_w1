@@ -1,4 +1,4 @@
-const HTTP_PM      = `${location.origin}/tiles/solar_buildings_roofonly_shinagawa.pmtiles`;
+const HTTP_PM      = `./tiles/solar_buildings_roofonly_shinagawa.pmtiles`;
 const PMTILES_URL  = "pmtiles://" + HTTP_PM;
 const SOURCE_ID    = "solar";
 const SOURCE_LAYER = "solar_buildings";
