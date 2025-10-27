@@ -6,18 +6,16 @@ const PROP_IRR     = "global_roof_mean";
 const PROP_H       = "height";
 const PROP_ID      = "id";
 
-// カラースケール（必要ならオレンジ系に差し替え可）
 const COLOR_SCALE = [
   "interpolate", ["linear"],
   ["coalesce", ["to-number", ["get", PROP_IRR]], 0],
   0,        "#0d0d0d",
-  300000,   "#4b0082",
-  800000,   "#800080",
-  1000000,  "#ff8c00",
-  1400000,  "#ffe066"
+  700000,   "#4b0082",
+  1000000,  "#800080",
+  1200000,  "#ff8c00",
+  1500000,  "#ffe066"
 ];
 
-// ====== 初期化 ======
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
 
@@ -26,11 +24,10 @@ const map = new maplibregl.Map({
   style: { "version":8, "sources":{}, "layers":[
     { "id":"bg", "type":"background", "paint":{ "background-color":"#eef2f7" } }
   ]},
-  center:[139.73,35.62], zoom:12, hash:true, pitch:0
+  center:[139.734894,35.606309], zoom:14.5, hash:true, pitch:0
 });
 
 map.on('load', async () => {
-  // 背景OSM
   map.addSource("osm", {
     type: "raster",
     tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
@@ -40,7 +37,6 @@ map.on('load', async () => {
   });
   map.addLayer({ id:"osm", type:"raster", source:"osm", paint:{ "raster-opacity":0.55 } });
 
-  // PMTiles ソース
   map.addSource(SOURCE_ID, { type:"vector", url: PMTILES_URL });
 
   // 2D
