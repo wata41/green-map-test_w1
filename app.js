@@ -44,9 +44,11 @@ map.on('load', async () => {
 
   map.addSource("gsi_photo", {
     type: "raster",
-    tiles: ["https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg"],
+    // tiles: ["https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg"],
+    tiles: ["https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg"],
     tileSize: 256,
-    attribution: "国土地理院"
+    attribution: "国土地理院", 
+    maxzoom: 19
   });
   map.addLayer({
     id: "gsi_photo",
