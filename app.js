@@ -35,7 +35,26 @@ map.on('load', async () => {
     attribution: "© OpenStreetMap contributors",
     maxzoom: 19
   });
-  map.addLayer({ id:"osm", type:"raster", source:"osm", paint:{ "raster-opacity":0.55 } });
+  map.addLayer({
+    id:"osm", 
+    type:"raster", 
+    source:"osm", 
+    paint:{ "raster-opacity":0.55 } 
+  });
+
+  map.addSource("gsi_photo", {
+    type: "raster",
+    tiles: ["https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg"],
+    tileSize: 256,
+    attribution: "国土地理院"
+  });
+  map.addLayer({
+    id: "gsi_photo",
+    type: "raster",
+    source: "gsi_photo",
+    layout: { "visibility": "none" },
+    paint: {"raster-opacity": 1.0}
+  });
 
   map.addSource(SOURCE_ID, { type:"vector", url: PMTILES_URL });
 
@@ -43,7 +62,7 @@ map.on('load', async () => {
   map.addLayer({
     id:"solar-2d-fill", type:"fill",
     source:SOURCE_ID, "source-layer":SOURCE_LAYER,
-    paint:{ "fill-color": COLOR_SCALE, "fill-opacity":0.75 }
+    paint:{ "fill-color": COLOR_SCALE, "fill-opacity":0.35 }
   });
 
   // 3D
@@ -53,7 +72,7 @@ map.on('load', async () => {
     layout:{ "visibility":"none" },
     paint:{
       "fill-extrusion-color": COLOR_SCALE,
-      "fill-extrusion-opacity": 0.95,
+      "fill-extrusion-opacity": 0.75,
       "fill-extrusion-height": ["coalesce", ["to-number", ["get", PROP_H]], 0],
       "fill-extrusion-base": 0
     }
@@ -78,6 +97,7 @@ map.on('load', async () => {
   const chk2d = document.getElementById('chk2d');
   const chk3d = document.getElementById('chk3d');
   const chkOSM = document.getElementById('chkOSM');
+  const chkGSI = document.getElementById('chkGSI');
 
   chk2d.addEventListener('change', () => {
     map.setLayoutProperty('solar-2d-fill', 'visibility', chk2d.checked ? 'visible' : 'none');
@@ -88,6 +108,9 @@ map.on('load', async () => {
   });
   chkOSM.addEventListener('change', () => {
     map.setLayoutProperty('osm', 'visibility', chkOSM.checked ? 'visible' : 'none');
+  });
+  chkGSI.addEventListener('change', () => {
+    map.setLayoutProperty('gsi_photo', 'visibility', chkGSI.checked ? 'visible' : 'none');
   });
 
   // 自動ズーム
